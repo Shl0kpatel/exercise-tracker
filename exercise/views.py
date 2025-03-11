@@ -4,6 +4,11 @@ from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm, ExerciseForm
 from .models import Exercise
 
+from django.shortcuts import render
+
+def index(request):
+    return render(request, 'index.html')
+
 def register(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
