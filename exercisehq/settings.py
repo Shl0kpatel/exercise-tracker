@@ -146,3 +146,4 @@ LOGOUT_REDIRECT_URL = '/login/'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+ALLOWED_HOSTS = ["your-app-name.onrender.com"]
