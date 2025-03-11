@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Exercise - Workout Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .track-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="track-container">
+            <h3 class="text-center">Track New Exercise</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <input type="text" name="name" class="form-control" placeholder="Exercise Name" required>
+                </div>
+                <div class="mb-3">
+                    <input type="number" name="reps" class="form-control" placeholder="Reps" required>
+                </div>
+                <div class="mb-3">
+                    <input type="number" name="sets" class="form-control" placeholder="Sets (Optional)">
+                </div>
+                <div class="mb-3">
+                    <input type="number" step="0.5" name="weight" class="form-control" placeholder="Weight (In Kg)">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Track Exercise</button>
+            </form>
+            <div class="text-center mt-3">
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">Go Back</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -3,58 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exercise List</title>
+    <title>Dashboard - Workout Tracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .dashboard-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">Workout Tracker</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'add_exercise' %}">Add Exercise</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
-                </ul>
+    <div class="container">
+        <div class="dashboard-container">
+            <h2 class="text-center">Welcome, {{ user.username }}</h2>
+            <div class="text-end">
+                <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+            </div>
+            <h3 class="mt-4">Your Exercises</h3>
+            <ul class="list-group">
+                {% for exercise in exercises %}
+                    <li class="list-group-item">{{ exercise.name }} - Reps: {{ exercise.reps }} - Sets: {{ exercise.sets|default:"N/A" }} - Weight: {{ exercise.weight|default:"N/A" }}</li>
+                {% endfor %}
+            </ul>
+            <div class="text-center mt-3">
+                <a href="{% url 'track_exercise' %}" class="btn btn-primary">Track New Exercise</a>
             </div>
         </div>
-    </nav>
-
-    <div class="container mt-4">
-        <h2 class="text-center">Workout Exercises</h2>
-        
-        <table class="table table-striped mt-4">
-            <thead class="table-dark">
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Duration (mins)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for exercise in exercises %}
-                <tr>
-                    <td>{{ exercise.name }}</td>
-                    <td>{{ exercise.description }}</td>
-                    <td>{{ exercise.duration }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="3" class="text-center">No exercises added yet.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="text-center">
-            <a href="{% url 'add_exercise' %}" class="btn btn-primary">Add New Exercise</a>
-        </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
