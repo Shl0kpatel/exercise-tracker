@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.timezone import now  
 
 class CustomUser(AbstractUser):
-    pass  
+    level = models.CharField(max_length=50, default="Beginner")
 
 class Exercise(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)  
