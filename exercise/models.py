@@ -3,7 +3,9 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.timezone import now  
 
 class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True, blank=False, null=False)  # Ensure email is required
     level = models.CharField(max_length=50, default="Beginner")
+
 
 class Exercise(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)  

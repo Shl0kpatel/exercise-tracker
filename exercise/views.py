@@ -3,6 +3,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm, ExerciseForm
 from .models import Exercise
+from .models import CustomUser
+
 
 from django.shortcuts import render
 
@@ -13,13 +15,16 @@ def register(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.level = "Beginner"  # Set a default level manually
-            user.save()
-            return redirect('login')
+            email = form.cleaned_data.get("email")
+            if CustomUser.objects.filter(email=email).exists():
+                form.add_error("email", "This email is already registered.")
+            else:
+                form.save()
+                return redirect("login")  # Redirect to login after successful registration
     else:
         form = RegisterForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, "register.html", {"form": form})
+
 
 
 def user_login(request):
