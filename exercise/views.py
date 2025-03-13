@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegisterForm, ExerciseForm
 from .models import Exercise
 from .models import CustomUser
@@ -39,8 +39,8 @@ def user_login(request):
 
 @login_required
 def dashboard(request):
-    exercises = Exercise.objects.filter(user=request.user)
-    return render(request, 'dashboard.html', {'exercises': exercises})
+    e = Exercise.objects.filter(user=request.user)  # Fetch only user's exercises
+    return render(request, 'dashboard.html', {'exercises': e})
 
 @login_required
 def track_exercise(request):
@@ -60,3 +60,23 @@ from django.contrib.auth import logout
 def user_logout(request):
     logout(request)
     return redirect('login')  # Redirect to login page after logout
+
+@login_required
+def delete_exercise(request, id):
+    e = get_object_or_404(Exercise, id=id, user=request.user)  # Ensure user owns exercise
+    e.delete()
+    return redirect('dashboard')  # Redirect back to dashboard
+
+def edit_exercise(request, exercise_id):
+    e = get_object_or_404(Exercise, id=exercise_id)
+    
+    if request.method == 'POST':
+        f = ExerciseForm(request.POST, instance=e)
+        if f.is_valid():
+            f.save()
+            return redirect('dashboard')  # Redirect to tracked exercises page
+
+    else:
+        f = ExerciseForm(instance=e)
+
+    return render(request, 'edit_exercise.html', {'form': f})

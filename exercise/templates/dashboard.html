@@ -1,41 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Workout Tracker</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .dashboard-container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 30px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="dashboard-container">
-            <h2 class="text-center">Welcome, {{ user.username }}</h2>
-            <div class="text-end">
-                <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
-            </div>
-            <h3 class="mt-4">Your Exercises</h3>
-            <ul class="list-group">
-                {% for exercise in exercises %}
-                    <li class="list-group-item">{{ exercise.name }} - Reps: {{ exercise.reps }} - Sets: {{ exercise.sets|default:"N/A" }} - Weight: {{ exercise.weight|default:"N/A" }}</li>
-                {% endfor %}
-            </ul>
-            <div class="text-center mt-3">
-                <a href="{% url 'track_exercise' %}" class="btn btn-primary">Track New Exercise</a>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center">
+        <h2 class="fw-bold text-primary">Welcome, {{ user.username|upper }}</h2>
+    </div>
+
+    <!-- Track Exercise Button -->
+    <div class="d-flex justify-content-end mb-4">
+        <a href="{% url 'track_exercise' %}" class="btn btn-success shadow-sm">
+            <i class="fas fa-plus"></i> Track New Exercise
+        </a>
+    </div>
+
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-dark text-white text-center">
+            <h4 class="mb-0">Tracked Exercises</h4>
+        </div>
+        <div class="card-body p-4">
+            <div class="table-responsive">
+                <table class="table table-striped align-middle text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Reps</th>
+                            <th>Sets</th>
+                            <th>Weight</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for exercise in exercises %}
+                        <tr>
+                            <td class="fw-semibold">{{ exercise.name }}</td>
+                            <td>{{ exercise.reps }}</td>
+                            <td>{{ exercise.sets }}</td>
+                            <td>{{ exercise.weight|default:"-" }}</td>
+                            <td>
+                                <a href="{% url 'edit_exercise' exercise.id %}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <form method="POST" action="{% url 'delete_exercise' exercise.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                            
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-muted text-center">No exercises tracked yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}
