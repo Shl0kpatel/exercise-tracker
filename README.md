@@ -1,16 +1,17 @@
-# Workout Tracker
+# Exercise Tracker
 
-This is a simple workout tracking web application built using Django. Users can register, log in, track exercises, and view their exercise history.
+An Exercise Tracking App built using Django that allows users to register, log in, and track their workouts privately.
 
 ## Features
-- User authentication (Login/Register/Logout)
-- Dashboard to view logged exercises
-- Form to track new exercises
+- User authentication (registration & login)
+- Add, edit, and delete exercise logs
+- Track exercise details including name, reps, sets, and weight
+- Responsive and user-friendly UI
 
-## Technologies Used
-- Django (Backend framework)
-- Bootstrap (Frontend styling)
-- SQLite (Default database)
+## Tech Stack
+- **Backend:** Django, SQLite
+- **Frontend:** HTML, CSS, Bootstrap
+- **Version Control:** Git & GitHub
 
 ## Installation
 1. Clone the repository:
@@ -18,48 +19,40 @@ This is a simple workout tracking web application built using Django. Users can 
    git clone https://github.com/yourusername/exercise-tracker.git
    cd exercise-tracker
    ```
-
-2. Create a virtual environment and activate it:
+2. Create and activate a virtual environment:
    ```sh
    python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   source venv/bin/activate  # On Windows use: venv\Scripts\activate
    ```
-
 3. Install dependencies:
    ```sh
    pip install -r requirements.txt
    ```
-
 4. Apply migrations:
    ```sh
    python manage.py makemigrations
    python manage.py migrate
    ```
-
-5. Run the development server:
+5. Create a superuser:
+   ```sh
+   python manage.py createsuperuser
+   ```
+6. Run the server:
    ```sh
    python manage.py runserver
    ```
-
-6. Access the application at `http://127.0.0.1:8000/`
+7. Open in browser:
+   ```
+   http://127.0.0.1:8000/
+   ```
 
 ## Usage
-- Register a new account
-- Log in to the dashboard
-- Track your exercises with reps, sets, and weight
-- View your logged exercises
-- Logout when finished
+- Register/Login to your account
+- Add exercises with details (name, reps, sets, weight)
+- View and manage your exercise history
 
-## Project Structure
-```
-exercise-tracker/
-│── exercisehq/          # Main Django project folder
-│── templates/           # HTML templates
-│── static/              # CSS, JS, and images
-│── db.sqlite3           # Database
-│── manage.py            # Django management script
-└── README.md            # Project documentation
-```
+## Contribution
+Feel free to fork this repository and submit a pull request.
 
 ## License
-This project is licensed under the MIT License.
+This project is open-source under the MIT License.
